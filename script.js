@@ -146,8 +146,8 @@ btn.addEventListener("click", () => {
     const drinkMaxLength = parseLength(document.querySelector('#drink-length').value);
     const heroMaxLength = parseLength(document.querySelector('#hero-length').value);
 
-    const filteredDrinks = drinks.filter(item => item.length <= drinkMaxLength);
-    const filteredHeroes = heroes.filter(item => item.length <= heroMaxLength);
+    const filteredDrinks = drinks.filter(item => item.length === drinkMaxLength || drinkMaxLength === Infinity);
+    const filteredHeroes = heroes.filter(item => item.length === heroMaxLength || heroMaxLength === Infinity);
 
     const randomDrink = getRandomElement(filteredDrinks);
     const randomHero = getRandomElement(filteredHeroes);
