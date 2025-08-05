@@ -1,9 +1,11 @@
 const drinks = [
-    "可乐", "O泡", "奶茶", "旺仔", "雪碧", "冰红茶", "美年达",
+    "可乐", "O泡", "旺仔", "雪碧", "冰红茶", "美年达",
     "芬达", "脉动", "红牛", "椰树", "柠檬茶", "美汁源", "雀巢",
     "绿茶", "三得利", "养乐多", "AD钙奶", "七喜", "果粒橙",
     "王老吉", "加多宝", "维他奶", "蒙牛", "伊利", "康师傅",
-    "农夫山泉", "百事", "雪花", "东鹏", "光明", "尖叫", "茶π"
+    "农夫山泉", "百事", "雪花", "东鹏", "光明", "尖叫", "茶π",
+    "怡宝", "补水啦", "东方树叶", "娃哈哈", "纯甄", "魔爪", "健力宝",
+    "露露", "香飘飘"
 ];
 
 const heroes = [
@@ -26,6 +28,8 @@ const heroes = [
     "杨玉环", "张飞", "孙策", "孙膑", "刘邦", "张良",
     "姜子牙", "周瑜", "黄忠", "马超"
 ];
+// const drinks = ['旺仔']
+// const heroes = ['小乔']
 
 function parseLength(value) {
     return value === 'Infinity' ? Infinity : parseInt(value);
@@ -44,6 +48,59 @@ function showToast(message) {
     }, 1000);
 }
 
+function surprise() {
+    // 创建中奖动画容器
+    const surpriseContainer = document.createElement('div');
+    surpriseContainer.className = 'surprise-container';
+
+    // 添加中奖文字
+    surpriseContainer.innerHTML = `
+        <div class="surprise-content">
+            <div class="surprise-title">🎉 恭喜抽出 🎉</div>
+            <div class="surprise-subtitle">旺仔小乔</div>
+            <div class="surprise-message">我是旺仔小乔, 你们好吗！</div>
+        </div>
+        <div class="fireworks"></div>
+    `;
+
+    document.body.appendChild(surpriseContainer);
+
+    createFireworks(surpriseContainer);
+    playAudio();
+
+    setTimeout(() => {
+        surpriseContainer.classList.add('fade-out');
+        setTimeout(() => {
+            document.body.removeChild(surpriseContainer);
+        }, 500);
+    }, 3000);
+}
+
+function createFireworks(container) {
+    const fireworksContainer = container.querySelector('.fireworks');
+
+    // 创建多个烟花粒子
+    for (let i = 0; i < 50; i++) {
+        const particle = document.createElement('div');
+        particle.className = 'particle';
+
+        // 随机位置和颜色
+        const colors = ['#ff6b6b', '#4ecdc4', '#45b7d1', '#f9ca24', '#f0932b', '#eb4d4b', '#6c5ce7'];
+        particle.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+        particle.style.left = Math.random() * 100 + '%';
+        particle.style.animationDelay = Math.random() * 2 + 's';
+        particle.style.animationDuration = (Math.random() * 3 + 2) + 's';
+
+        fireworksContainer.appendChild(particle);
+    }
+}
+
+function playAudio() {
+    const audio = new Audio('audio/hello.mp3');
+    audio.play().catch(error => {
+        console.error("播放音频失败:", error);
+    });
+}
 function render() {
     const history = JSON.parse(localStorage.getItem("history") || "[]");
     const historyList = document.querySelector(".history-list");
@@ -99,6 +156,7 @@ btn.addEventListener("click", () => {
         alert("没有符合条件的饮料或英雄，请调整长度限制。");
         return;
     }
+    if (newName === '旺仔小乔') surprise();
     result.innerHTML = `${newName}`;
     history.push(newName);
     localStorage.setItem("history", JSON.stringify(history));
