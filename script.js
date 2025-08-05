@@ -163,6 +163,12 @@ btn.addEventListener("click", () => {
     render();
 })
 
+document.addEventListener("keydown", e => {
+    if (e.code === "Space") {
+        btn.click();
+    }
+});
+
 result.addEventListener("click", () => {
     const text = result.textContent;
     if (!text) return;
